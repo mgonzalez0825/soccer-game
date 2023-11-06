@@ -1,0 +1,669 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>New Soccer Documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+    <link rel="stylesheet" href="assets/blueprint-css/prettify.css">
+	<script src="assets/js/prettify.js" defer></script>
+    <script>
+	window.onload = (function(){ prettyPrint(); });
+	</script>
+</head>
+
+
+<body>
+	<div class="container">
+	
+		<h3 class="center alt">&ldquo;New Soccer&rdquo; Documentation by &ldquo;demonisblack&rdquo; v2.5</h3>
+		
+		<hr>
+		
+		<h1 class="center">&ldquo;New Soccer&rdquo;</h1>
+		
+		<div class="borderTop">
+			<div class="span-6 colborder info prepend-1">
+				<p class="prepend-top">
+					<strong>
+					Created: 4/23/2022<br>
+					By: mannygonzalez<br>
+
+					</strong>
+				</p>
+			</div><!-- end div .span-6 -->		
+	
+			<div class="span-12 last">
+				<p class="prepend-top append-0">Thank you for purchasing my game. If you have any questions that are beyond the scope of this help file, please feel free to email via my user page contact form <a href="http://codecanyon.net/user/demonisblack">here</a>. Thanks so much!</p>
+			</div>
+		</div><!-- end div .borderTop -->
+		
+		<hr>
+		
+		<h2 id="toc" class="alt">Table of Contents</h2>
+		<ol class="alpha">
+        	<li><a href="#introduction">Introduction</a></li>
+            <li><a href="#gettingStarted">Getting Started</a></li>
+            <li><a href="#htmlStructure">HTML Structure</a></li>
+			<li><a href="#cssFiles">CSS Files and Structure</a></li>
+			<li><a href="#javascript">JavaScript</a></li>
+            <li><a href="#gameFunctions">Game Functions</a></li>
+            <li><a href="#gameAssets">Game Assets</a></li>
+            <li><a href="#compatibility">Compatibility</a></li>
+            <li><a href="#addons">Add-ons</a></li>
+			<li><a href="#credits">Sources and Credits</a></li>
+            <li><a href="#changelog">Changelog</a></li>
+            <li><a href="#support">Support Policy</a></li>
+		</ol>
+		
+		<hr>
+        
+        <h3 id="introduction"><strong>A) Introduction</strong> - <a href="#toc">top</a></h3>
+        <p>New Soccer is a HTML5 soccer game played between two teams of eleven players, using mouse control only one player and score by getting the ball into the opposing goal.</p>
+        
+        <p>The ZIP package contains the game with 1280×768 resolution that scales to fit the whole screen device, but it may not be perfectly full screen.</p>
+        
+        <p>
+        <strong>How To Play:</strong><br>
+        1) Use mouse to control player<br/>
+        2) Mouseover opponent for tackle<br/>
+        3) Click to pass, shoot or hard tackle<br/><br/>
+        <img src="assets/images/howtoplay.jpg" /><br/>
+        <img src="assets/images/teams.jpg" /><br/>
+        <img src="assets/images/penalty.jpg" /><br/>
+        <img src="assets/images/championship.jpg" />
+        </p>
+        
+        <hr>
+        
+        <h3 id="gettingStarted"><strong>B) Getting Started</strong> - <a href="#toc">top</a></h3>
+		<p>To install the game just upload folder 'game' to your server. The game won't run locally with some browser like Chrome due to some security mode.</p>        
+        <p>You need a website that runs PHP to make facebook share button work, and make sure to change Facebook Open Graph meta and Twitter meta in index.html, just replace [GAME_URL] to your game URL.</p>
+        <pre class="prettyprint linenums">
+        &lt;!-- for Facebook --&gt;
+        &lt;meta property=&quot;og:image&quot; content=&quot;[GAME_URL]/share.jpg&quot; /&gt;
+        &lt;meta property=&quot;og:url&quot; content=&quot;[GAME_URL]&quot; /&gt;
+        
+        &lt;!-- for Twitter --&gt;
+        &lt;meta name=&quot;twitter:image&quot; content=&quot;[GAME_URL]/share.jpg&quot; /&gt;
+        </pre>
+        
+        <p>You can easily customize game text and settings in game.js file
+        
+        <pre class="prettyprint linenums">
+        var soccerGameTime = 180000; //game total time
+        var gameStartSide = 'home'; //game start side (home / away)
+        
+        var playerSpeed = {user:2.6, //user speed
+                            playerTeam:{player:2.5, goalkeeper:2.5}, //user player team speed
+                            oppositeTeam:{player:2.55, goalkeeper:2.6}, //opposite player team speed
+                            tackle:5}; //tackle speed
+
+        //control settings
+        var controlSettings = {
+            screenControl:false, // true to use screen control for desktop, false for using mouse to move
+	        screenMobileControl:true, // true to use screen control for mobile, false for using touch to move
+            screenControlSide:true, //true for right, false for left
+            screenControlAlpha:.6
+        };
+        
+        //result title
+        var resultWinText = 'CONGRATULATION!\nYOU WON THE MATCH!';
+        var resultDrawText = 'YOU HAVE DRAW\nTHE MATCH!';
+        var resultLossText = 'BETTER LUCK\nNEXT TIME!';
+        
+        //Social share, [SCORE] will replace with game score
+        var shareEnable = true; //toggle share
+        var shareText = 'SHARE THIS GAME'; //social share message
+        var shareTitle = 'My final score on New Soccer Game is Blu [LEFTSCORE] VS [RIGHTSCORE] Red.';//social share score title
+        var shareMessage = 'Blu [LEFTSCORE] VS [RIGHTSCORE] Red is mine new score on New Soccer Game! Try it now!'; //social share score message
+        </pre>
+        
+        <h3><strong>Teams:</strong></h3>
+        <p>You can easily customize 16 teams in array below in team.js file</p>
+        <pre class="prettyprint linenums">
+        //team array			
+        var team_arr = [{
+                            name:'GERMANY',
+                            icon:'assets/team/icon_germany.png',
+                            bracket:'assets/team/icon_bracket_germany.png',
+                            player:'assets/team/players_germany.png'
+                        }];
+        </pre>
+        
+        <ol>
+            <li><strong>name</strong> - team name</li>
+            <li><strong>icon</strong> - icon image path</li>
+            <li><strong>bracket</strong> - bracket image path</li>
+            <li><strong>player</strong> - player spritesheet path</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Soccer field wall:</strong></h3>
+        <p>You can easily customize wall bounce back in array below in player.js file</p>
+        <pre class="prettyprint linenums">
+        //wall position			
+        var wallData = [{x:239, y:1181, w:1824, h:10, pos:'bottom'}];
+        </pre>
+        
+        <ol>
+            <li><strong>x</strong> - x start position</li>
+            <li><strong>y</strong> - y start position</li>
+            <li><strong>w</strong> - wall width</li>
+            <li><strong>h</strong> - wall height</li>
+            <li><strong>pos</strong> - wall position (top, bottom, left, right), eg top position will bounce back to bottom way</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Soccer field area:</strong></h3>
+        <p>You can easily customize shoot area in array below in player.js file</p>
+        <pre class="prettyprint linenums">
+        //area positions			
+        var areaData = [{x:175, y:568, w:62, h:165, pos:'postarea', side:'right'}];
+        </pre>
+        
+        <ol>
+            <li><strong>x</strong> - x start position</li>
+            <li><strong>y</strong> - y start position</li>
+            <li><strong>w</strong> - wall width</li>
+            <li><strong>h</strong> - wall height</li>
+            <li><strong>pos</strong> - area position (postarea, shotarea); postarea is goal area; shotarea is where player begin to shoot the ball into the goal</li>
+            <li><strong>side</strong> - for which team (left / right)</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Player positions:</strong></h3>
+        <p>You can easily customize player position in array below in player.js file</p>
+        <pre class="prettyprint linenums">
+        //players position				
+        var playerPos = [{x:875, y: 561, side:'left', pos:'forward', patrolStartX:583, patrolEndX:2050}];
+        </pre>
+        
+        <ol>
+            <li><strong>x</strong> - x start position</li>
+            <li><strong>y</strong> - y start position</li>
+            <li><strong>side</strong> - player as which team (left / right)</li>
+            <li><strong>pos</strong> - player position (back, midfield, forward)</li>
+            <li><strong>patrolStartX</strong> - start patrol position x</li>
+            <li><strong>patrolEndX</strong> - end patrol position x</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Goalkeeper positions:</strong></h3>
+        <p>You can easily customize goalkeeper position in array below in player.js file</p>
+        <pre class="prettyprint linenums">
+        //goalkeeper positions				
+        var playerGoalPos = [{x:286, y: 635, side:'left', patrolStartX:238, patrolEndX:482, patrolStartY:504, patrolEndY:788}];
+        </pre>
+        
+        <ol>
+            <li><strong>x</strong> - x start position</li>
+            <li><strong>y</strong> - y start position</li>
+            <li><strong>side</strong> - player as which team (left / right)</li>
+            <li><strong>patrolStartX</strong> - start patrol position x</li>
+            <li><strong>patrolEndX</strong> - end patrol position x</li>
+            <li><strong>patrolStartY</strong> - start patrol position y</li>
+            <li><strong>patrolEndY</strong> - end patrol position y</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Kickoff positions:</strong></h3>
+        <p>You can easily customize kickoff position in array below in player.js file</p>
+        <pre class="prettyprint linenums">
+        //player forward start ball position			
+        var playerForwardPos = [{x:1120, y:620, side:'left'}];
+        </pre>
+        
+        <ol>
+            <li><strong>x</strong> - x start position</li>
+            <li><strong>y</strong> - y start position</li>
+            <li><strong>side</strong> - player as which team (left / right)</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Penalty datas:</strong></h3>
+        <p>You can easily customize penalty gameplay data in array below in player.js file</p>
+        <pre class="prettyprint linenums">
+        var playerPenaltyData = {ballX:430,
+                ballY:650,
+                playerX:460,
+                playerY:650,
+                goalkeeprX:286,
+                goalkeeprY:635,
+                patrolStartX:238,
+                patrolEndX:344,
+                patrolStartY:504,
+                patrolEndY:788,
+                goalkeeprIdleX:1500,
+                goalkeeprIdleY:830,
+                homeX:750,
+                homeY:550,
+                awayX:750,
+                awayY:800,
+                scoreColor:'#00D900',
+                missColor:'#D90000',
+                bgColor:'#000'
+                };
+        </pre>
+        
+        <ol>
+            <li><strong>ballX</strong> - ball position x</li>
+            <li><strong>ballY</strong> - ball position y</li>
+            <li><strong>playerX</strong> - player position x</li>
+            <li><strong>playerY</strong> - player position y</li>
+            <li><strong>goalkeeprX</strong> - goalkeeper position x</li>
+            <li><strong>goalkeeprY</strong> - goalkeeper position y</li>
+            
+            <li><strong>patrolStartX</strong> - goalkeeper patrol start x</li>
+            <li><strong>patrolEndX</strong> - goalkeeper patrol end x</li>
+            <li><strong>patrolStartY</strong> - goalkeeper patrol start y</li>
+            <li><strong>patrolEndY</strong> - goalkeeper patrol end y</li>
+            
+            <li><strong>goalkeeprIdleX</strong> - goalkeeper idle x</li>
+            <li><strong>goalkeeprIdleY</strong> - goalkeeper idle y</li>
+            <li><strong>homeX</strong> - home player position x</li>
+            <li><strong>homeY</strong> - home player position y</li>
+            <li><strong>awayX</strong> - away player position x</li>
+            <li><strong>awayY</strong> - away player position y</li>
+            
+            <li><strong>scoreColor</strong> - score color</li>
+            <li><strong>missColor</strong> - miss color</li>
+            <li><strong>bgColor</strong> - bg color</li>
+        </ol>
+        </p>
+        
+        <h3><strong>Championship settings:</strong></h3>
+        <p>You can easily customize championship settings in championship.js file</p>
+        <pre class="prettyprint linenums">
+        //championship placement name
+        var championshipPlace = ['1st','2nd','3rd'];
+        </pre>
+        
+        <p>And you can easily customize championship brackets in array below in championship.js file</p>
+        <pre class="prettyprint linenums">
+        //championship brackets position
+        var championshipBracket_arr = {roundof16:[
+                                                {
+                                                    homeX:204,
+                                                    homeY:200,
+                                                    awayX:204,
+                                                    awayY:249,
+                                                    homeS:'left',
+                                                    awayS:'left',
+                                                    homeP:'up',
+                                                    awayP:'down'
+                                                }
+                                            ]}
+        </pre>
+        
+        <ul>
+            <li><strong>roundof16</strong> - there are total 4 rounds of array (roundof16, quaterfinals, semifinals, finals)
+            	<ol>
+                	<li><strong>homeX</strong> - home bracket position x</li>
+                    <li><strong>homeY</strong> - home bracket position y</li>
+                    <li><strong>awayX</strong> - away bracket position x</li>
+                    <li><strong>awayY</strong> - away bracket position y</li>
+                    
+                    <li><strong>homeS</strong> - home bracket direction (left / right)</li>
+                    <li><strong>awayS</strong> - away bracket direction (left / right)</li>
+                    <li><strong>homeP</strong> - player indicator position for home (up / down)</li>
+                    <li><strong>awayP</strong> - player indicator position for away (up / down)</li>
+                </ol>
+            </li>
+        </ul>
+        </p>
+        
+        <p>
+        The sound can be easily disabled to avoid compatibility issues in sound.js file:
+        <pre class="prettyprint linenums">
+        var enableDesktopSound = true; //sound for dekstop
+        var enableMobileSound = true; //sound for mobile and tablet
+        </pre>
+        </p>
+        
+        <p>
+        The mobile rotate instruction can be easily change in mobile.js file:
+        <pre class="prettyprint linenums">
+        var rotateInstruction = true; //enable rotate instruction for mobile
+        var forPortrait=false; //for portrait only, set false for landscape mode
+        </pre>
+        </p>
+        <hr>
+		
+		<h3 id="htmlStructure"><strong>C) HTML Structure</strong> - <a href="#toc">top</a></h3>
+        <p>The page start with the loader wrapper that covering the whole screen in the body. It shows loader progress when calls the function <strong>initPreload()</strong></p>
+        <pre class="prettyprint linenums">
+        &lt;!-- PERCENT LOADER START--&gt;
+    	&#x3C;div id=&#x22;mainLoader&#x22;&#x3E;&#x3C;img src=&#x22;assets/loader.png&#x22; /&#x3E;&#x3C;br&#x3E;&#x3C;span&#x3E;0&#x3C;/span&#x3E;&#x3C;/div&#x3E;
+        &lt;!-- PERCENT LOADER END--&gt;
+        </pre>
+        
+        <p>This section is for browser not support page when calls the function <strong>checkBrowser()</strong>. It shows error message when detect the browser does not support canvas.</p>
+        <pre class="prettyprint linenums">
+        &lt;!-- BROWSER NOT SUPPORT START--&gt;
+        &lt;div id=&quot;notSupportHolder&quot;&gt;
+            &lt;div class=&quot;notSupport&quot;&gt;YOUR BROWSER ISN&#39;T SUPPORTED.&lt;br/&gt;PLEASE UPDATE YOUR BROWSER IN ORDER TO RUN THE GAME&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- BROWSER NOT SUPPORT END--&gt;
+        </pre>
+        
+        <p>Device rotate instruction page when calls the function <strong>checkMobileOrientation()</strong>. It shows rotate instruction when device is in portrait view.</p>
+        <pre class="prettyprint linenums">
+        &lt;!-- ROTATE INSTRUCTION START--&gt;
+        &lt;div id=&quot;rotateHolder&quot;&gt;
+            &lt;div class=&quot;mobileRotate&quot;&gt;
+            	&#x3C;div class=&#x22;rotateImg&#x22;&#x3E;&#x3C;img src=&#x22;assets/rotate.png&#x22; /&#x3E;&#x3C;/div&#x3E;
+                &lt;div class=&quot;rotateDesc&quot;&gt;ROTATE YOUR DEVICE &lt;br/&gt;TO LANDSCAPE&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- ROTATE INSTRUCTION END--&gt;
+        </pre>
+        
+        <p>Follow by one canvas tag in the body. The game start initiatie by calls the main function of the game <strong>initMain()</strong>.</p>
+        <pre class="prettyprint linenums">
+        &lt;!-- CANVAS START--&gt;
+        &lt;div id=&quot;canvasHolder&quot;&gt;
+            &lt;canvas id=&quot;gameCanvas&quot; width=&quot;1280&quot; height=&quot;768&quot;&gt;&lt;/canvas&gt;
+        &lt;/div&gt;
+        &lt;!-- CANVAS END--&gt;
+        </pre>
+		<hr>
+
+		<h3 id="cssFiles"><strong>D) CSS Files and Structure</strong> - <a href="#toc">top</a></h3>
+		<p>I'm using two CSS files in this game. The first one is a generic reset file. Many browser interpret the default behavior of html elements differently. By using a general reset CSS file, we can work round this. This file also contains some general styling, such as anchor tag colors, font-sizes, etc. Keep in mind, that these values might be overridden somewhere else in the file.</p>
+		<p>The second file contains all of the specific stylings for the page.</p>
+        <hr>
+		
+        
+		<h3 id="javascript"><strong>E) JavaScript</strong> - <a href="#toc">top</a></h3>
+		
+		<p>This game using Javascript files below.</p>
+		
+		<ol>
+			<li>
+                <strong>jQuery</strong> is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML.<br/><br/>
+            </li>
+            
+            <li>
+                <strong>Detect Mobile Browser</strong> is a open source scripts to detect mobile browsers and phones.<br/><br/>
+            </li>
+            
+            <li>
+                <strong>CreateJs plugin</strong> is a suite of modular libraries and tools which work together to create interactive content on open web technologies via HTML5.<br/><br/>
+            </li>
+            
+            <li>
+                <strong>TweenMax</strong> is an extremely fast, lightweight, and flexible animation tool that serves as the foundation of the GreenSock Animation Platform (GSAP).<br/><br/>
+            </li>
+            
+            <li>
+                <strong>The game have the following js files</strong>
+                <ul>
+                	<li><strong>init.js :</strong> check if browser or device support <br/><br/></li>
+                    <li><strong>loader.js :</strong> loader to load all game images<br/><br/></li>
+                    <li><strong>main.js :</strong> initiate game setup and browser resize function<br/><br/></li>
+                    <li><strong>mobile.js :</strong> mobile orientation change<br/><br/></li>
+                    <li><strong>canvas.js :</strong> canvas setup and resize<br/><br/></li>
+                    <li><strong>sound.js :</strong> sound event<br/><br/></li>
+                    <li><strong>team.js :</strong> team settings<br/><br/></li>
+                    <li><strong>game.js :</strong> game play and logics<br/><br/></li>
+                    <li><strong>player.js :</strong> soccer and players logics<br/><br/></li>
+                    <li><strong>func.js :</strong> additional soccer funcs<br/><br/></li>
+                    <li><strong>plugins.js :</strong> additonal useful plugins<br/><br/></li>
+                </ul>
+            </li>
+		</ol>
+        
+        <p>Complete game flow:</p>
+		<ol>
+        	<li>The index.html file start init.js for browser detection</li>
+            <li>If browser is supported, init loader.js to start load asserts with loading progress</li>
+            <li>For mobile the rotate instruction shows when device is in portrait view, detect by mobile.js</li>
+            <li>When all asserts contained in "/assets" folder are loaded, the game start construct canvas.js and main.js from game.js thats shows game menu</li>
+            <li>If user click start button in game menu, the game will start instruction with game.js</li>
+            <li>If user click ok button in instruction page, the game will start game with player.js</li>
+            <li>If user move the cursor, the player will follow the cursor</li>
+            <li>When user are carrying the ball, click to pass or shoot the ball.</li>
+            <li>When user team are carrying the ball, click to pass the ball to user.</li>
+            <li>When opponent are carrying the ball, mouseover to tackle or click for hard tackle.</li>
+            <li>When the ball went into the goal area, team will score 1 point and game start over with kickoff.</li>
+            <li>When game time is over, the game end and go to game result.</li>
+            <li>If user click continue button at game result, it will go to menu page</li>
+        </ol>
+		
+		<hr>
+        
+        <h3 id="gameFunctions"><strong>F) Game Functions</strong> - <a href="#toc">top</a></h3>
+		
+		<p>The most important functions used for page.</p>
+        <ul>
+        	<li>
+                <strong>checkBrowser()</strong><br/>
+                This function is runs for browser detection<br/><br/>
+            </li>
+            
+            <li>
+                <strong>checkMobileEvent()</strong><br/>
+                This function runs for mobile event<br/><br/>
+            </li>
+        </ul>
+        
+        <p>The most important functions used for game.</p>
+        <ul>
+        	<li>
+                <strong>initMain()</strong><br/>
+                This function build canvas<br/><br/>
+            </li>
+            
+            <li>
+                <strong>startGame()</strong><br/>
+                This function start gameplay<br/><br/>
+            </li>
+            
+            <li>
+                <strong>stopGame()</strong><br/>
+                This function stop gameplay<br/><br/>
+            </li>
+
+            <li>
+                <strong>saveGame()</strong><br>
+                This function save game score<br><br>
+            </li>
+        </ul>
+		<hr>
+        
+        <h3 id="gameAssets"><strong>H) Game Assets</strong> - <a href="#toc">top</a></h3>
+        <p>The game contain 'design' folder which include following:
+        <ol>
+        	<li>newsoccer_1280x768.psd - with layer folders below
+                <ul>
+                <li>Option</li>
+                <li>Result</li>
+                <li>Game</li>
+                <li>Landing</li>
+                <li>Background</li>
+                </ul>
+        	</li>
+        </ol>
+        </p>
+        </p>
+        
+        <p>The folder 'assets' in 'game' folder contains all the images of the game that can be replaced. Is better to have the same size of the old ones if you want to reskin the game graphic without coding.</p>
+        <hr>
+        
+        <h3 id="compatibility"><strong>I) Compatibility</strong> - <a href="#top">top</a></h3>
+		
+		<p>This game is build for Desktop browsers that support HTML5 canvas. Any mobile/tablet should work in landscape view, but they are not officially supported.</p>
+		<hr>
+
+        <h3 id="addons"><strong>J) Add-ons</strong> - <a href="#top">top</a></h3>
+		<p>The add-ons is an additional feature added to the game, below are the add-ons that are compatible with this game:</p>
+		<p></p><a href="https://codecanyon.net/item/scoreboard-for-html5-games/20196860" target="_blank"><img src="assets/images/scoreboard.png" /></a><br />
+        This game is compatible with Scoreboard for HTML5 Games, it is a add-ons page where user can submit score and view top 10 leaderboard. You can get it <a href="https://codecanyon.net/item/scoreboard-for-html5-games/20196860" target="_blank">here</a>.<br /><br /></p>
+
+		<hr>
+		
+		<h3 id="credits"><strong>K) Sources and Credits</strong> - <a href="#toc">top</a></h3>
+		
+		<p>I've used the following font and sound files as listed.</p>
+		
+		<ul>
+			<li><a href="https://www.dafont.com/kroftsmann.font" target="_blank">Kroftsmann</a> from file Abdulmakesfonts</li>
+            <li><a href="https://freesound.org/people/Pablo-F/sounds/90743/" target="_blank">referee-whistle.wav</a> from file Pablo-F</li>
+            
+            <li><a href="https://freesound.org/people/habbis92/sounds/206003/" target="_blank">Norwegian football match/soccer game ambience.WAV</a> from file habbis92</li>
+            <li><a href="https://freesound.org/people/jordiroquer/sounds/148153/" target="_blank">Barça goal 04-2006.mp3</a> from file jordiroquer</li>
+            <li><a href="https://freesound.org/people/paulw2k/sounds/196463/" target="_blank">Football-crowd-Cheer+Jeers.wav</a> from file paulw2k</li>
+            <li><a href="https://freesound.org/people/musita182/sounds/261267/" target="_blank">Soccer Kick.wav</a> from file musita182</li>
+            
+            <li><a href="https://freesound.org/people/mickleness/sounds/276609/" target="_blank">Notification: Bumptious</a> from file mickleness</li>
+            <li><a href="http://www.flashkit.com/loops/Sales/Techno_breed/Extra01-Lee_I_G-3664/index.php" target="_blank">Extra01</a> from file Lee I. Garnett</li>
+            <li><a href="http://www.flashkit.com/loops/Sales/Techno_breed/Extra02-Lee_I_G-3665/index.php" target="_blank">Extra02</a> from file Lee I. Garnett</li>
+		</ul>
+		
+		<hr>
+        
+        <h3 id="changelog"><strong>L) Changelog</strong> - <a href="#toc">top</a></h3>
+
+        Version 2.5
+		<ul>
+			<li>Total 32 teams</li>
+			<li>Improved ball animation</li>
+			<li>Improved UI</li>
+			<li>Added championship options</li>
+		</ul>
+
+        Version 2.4
+		<ul>
+			<li>Updated sound function</li>
+			<li>Added music button</li>
+		</ul>
+
+        Version 2.3
+		<ul>
+			<li>Added on screen control</li>
+		</ul>
+
+        Version 2.2		
+		<ul>
+			<li>Fixed scoreboard issue</li>
+		</ul>
+
+        Version 2.1
+		<ul>
+			<li>Add-on script integrated</li>
+		</ul>
+        
+        Version 2.0
+		<ul>
+        	<li>Update Google to Whatsapp share</li>
+		</ul>
+        
+        Version 1.9
+		<ul>
+        	<li>Added computer vs computer option</li>
+            <li>Fixed continue button not showing</li>
+		</ul>
+        
+        Version 1.8
+		<ul>
+        	<li>Fixed championsip next round penalty</li>
+            <li>Fixed save score</li>
+		</ul>
+        
+        Version 1.7
+		<ul>
+        	<li>Fixed audio not playing in Chrome browser</li>
+		</ul>
+        
+        Version 1.6
+		<ul>
+        	<li>Fixed championsip penalty score</li>
+            <li>Fixed championship bracket highlight</li>
+            <li>Fixed result score text</li>
+		</ul>
+        
+        Version 1.5
+		<ul>
+        	<li>Added championship</li>
+            <li>Fixed team select issue when return main menu</li>
+		</ul>
+        
+		Version 1.4
+		<ul>
+        	<li>Fixed penalty kick issue</li>
+		</ul>
+
+        Version 1.3
+		<ul>
+        	<li>Added gameplay selection</li>
+            <li>Added home or away selection</li>
+            <li>Added penalty kick (single, quickmatch)</li>
+		</ul>
+        
+        Version 1.2
+		<ul>
+        	<li>Added team selection</li>
+            <li>Added 16 country team</li>
+		</ul>
+        
+        Version 1.1
+		<ul>
+        	<li>Added match statistics</li>
+            <li>Fixed player not moving</li>
+            <li>Fixed goalkeepers issue</li>
+            <li>Fixed control issue after rematch</li>
+		</ul>
+		<hr>
+		
+		<h3 id="support"><strong>M) Support Policy</strong> - <a href="#toc">top</a></h3>
+
+		<p>Check out support policy <a href="https://demonisblack.com/code/support-policy/">here</a>.</p>
+
+        <strong>Wordpress Site</strong><br/>
+        <p>
+            By using Scoreboard for HTML5 Games plugin, you can embed HTML5 game into WordPress post or page.<br>
+            <a href="https://wordpress.org/plugins/scoreboard-for-html5-game-lite/" target="_blank">> Plugin</a>
+        </p>
+
+        <strong>Ad Placeholder</strong><br/>
+        <p>
+            Help simulate ads on HTML5 Games, you can integrate and display static and takeover ads through different Ads Serving Platform.<br>
+            <a href="https://demonisblack.com/code/ads/" target="_blank">> Documentation</a>
+        </p>
+
+        <strong>Instant Games – Facebook</strong><br/>
+        <p>
+            Guide you through integrating Facebook Instant Games API in our HTML5 Games.<br>
+            <a href="https://demonisblack.com/code/instantgames/" target="_blank">> Documentation</a>
+        </p>
+		<hr>
+		
+		<p>Once again, thank you so much for purchasing this game, if you have a more general question relating to the games on CodeCanyon, you might consider visiting the item page in the <a href="https://codecanyon.net/item/new-soccer-html5-game/21305857/support">"Support"</a> section.</p>
+		<img src="assets/images/rate.png" />
+        
+        <p>
+        	<h3>How to rate an item on CodeCanyon?</h3>
+            Use the steps below to rate our items on CodeCanyon:
+            <ol>
+                <li>Login to CodeCanyon</li>
+                <li>Open the menu on the top right, and click onto the link “Downloads” which shows a list of your downloads</li>
+                <li>Rate our items using the stars</li>
+                <li>That’s it. Thank you very much!</li>
+            </ol>
+            <img src="assets/images/rateguide.png" />
+        </p>
+		
+		<p class="append-bottom alt large"><strong>demonisblack</strong></p>
+		<p><a href="#toc">Go To Table of Contents</a></p>
+		
+		<hr class="space">
+	</div><!-- end div .container -->
+</body>
+</html>
